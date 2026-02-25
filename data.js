@@ -1,5 +1,4 @@
 ﻿window.EVENTS = [
-  { slug:"bunname", title:"bumName", date:"", category:"events", folder:"bunname" },
   { slug:"beale-afb-airshow", title:"Beale AFB Airshow", date:"2025-10-14", category:"events", folder:"beale-afb-airshow" },
   { slug:"bloom", title:"Bloom", date:"2025-04-14", category:"events", folder:"bloom" },
   { slug:"dc-x-lantern-festival", title:"DC X Lantern Festival", date:"2025-03-30", category:"events", folder:"dc-x-lantern-festival" },
