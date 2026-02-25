@@ -87,14 +87,14 @@ body{
   object-fit:cover;
 }
 
-.meta{
-  padding:20px 16px 24px;   /* extra bottom padding */
-  text-align:center;        /* center everything */
+.card-meta{
+  padding:20px 16px 24px;   /* more space, fixes “cut off” */
+  text-align:center;        /* centers title + date */
 }
 
-.meta div:last-child{
-  font-size:14px;
-  opacity:.8;
+.card-title,
+.card-sub{
+  line-height:1.4;
 }
 
 .photos{
