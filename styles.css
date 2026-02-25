@@ -77,17 +77,27 @@ body{
   overflow:hidden;
   text-decoration:none;
   color:white;
-  padding-bottom: 4px; /* prevents bottom text clipping on rounded corners */
+
+  display:flex;
+  flex-direction:column; /* keeps image + text in stable layout */
 }
 
 .card img{
   width:100%;
   height:200px;
   object-fit:cover;
+  display:block; /* removes tiny inline-image spacing issues */
+  flex:0 0 auto;
 }
 
 .meta{
-  padding: 12px 12px 18px 12px; /* extra bottom padding so dates don't clip */
+  padding:14px 14px 22px 14px;  /* bigger bottom */
+  flex:0 0 auto;
+  line-height:1.25;             /* prevents descenders from clipping */
+}
+
+.meta div:last-child{
+  padding-bottom:2px; /* extra safety for the date line */
 }
 
 .photos{
