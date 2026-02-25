@@ -65,7 +65,6 @@
           <a class="card" href="${href}">
             <div class="card-media">
               <img loading="lazy" src="${img}" alt="${title}" onerror="this.style.opacity=0.2" />
-              ${cat ? `<span class="tag">${cat}</span>` : ""}
             </div>
             <div class="card-meta">
               <div class="card-title">${title}</div>
