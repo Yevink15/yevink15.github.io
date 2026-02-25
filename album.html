@@ -11,31 +11,105 @@
 <header class="nav">
   <div class="container nav-inner">
     <a class="brand" href="index.html">Yevin_K <span>photo</span></a>
-    <a class="btn btn-ghost" href="index.html">All Albums</a>
+    <div class="nav-actions">
+      <a class="btn btn-ghost" href="index.html">All Albums</a>
+    </div>
   </div>
 </header>
 
 <main class="container">
+  <section class="hero" style="text-align:left">
+    <div class="hero-inner">
+      <h1 id="albumTitle">Loading...</h1>
+      <p id="albumMeta"></p>
+    </div>
+  </section>
 
-<section class="album-header">
-  <h1 id="title">Loading...</h1>
-  <div id="sub" class="album-sub"></div>
-</section>
+  <section class="photos" id="photos"></section>
 
-<section class="photos" id="photos"></section>
-
+  <div class="lightbox" id="lightbox">
+    <button class="lb-close" id="lbClose">✕</button>
+    <button class="lb-arrow left" id="lbPrev">‹</button>
+    <img class="lb-img" id="lbImg" alt=""/>
+    <button class="lb-arrow right" id="lbNext">›</button>
+    <div class="lb-count" id="lbCount"></div>
+  </div>
 </main>
 
-<div class="lightbox" id="lightbox">
-  <button class="lb-close" id="close">✕</button>
-  <button class="lb-arrow left" id="prev">‹</button>
-  <img id="lbImg" class="lb-img"/>
-  <button class="lb-arrow right" id="next">›</button>
-  <div class="lb-count" id="lbLabel"></div>
-</div>
-
 <script src="data.js"></script>
-<script src="app.js"></script>
+<script>
+(function () {
+  const params = new URLSearchParams(location.search);
+  const slug = params.get("slug");
+
+  const events = Array.isArray(window.EVENTS) ? window.EVENTS : [];
+  const ev = events.find(e => e.slug === slug || e.folder === slug);
+
+  const titleEl = document.getElementById("albumTitle");
+  const metaEl  = document.getElementById("albumMeta");
+  const gridEl  = document.getElementById("photos");
+
+  if (!ev) {
+    titleEl.textContent = "Album not found";
+    metaEl.textContent = "";
+    return;
+  }
+
+  const folder = ev.folder || ev.slug;
+  const count = Number(ev.count || 0);
+
+  titleEl.textContent = ev.title || folder;
+  metaEl.textContent = [ev.date, (ev.category || "").toUpperCase(), count ? `${count} photos` : ""]
+    .filter(Boolean).join(" • ");
+
+  // Build list: 01.jpg ... count.jpg
+  const pad2 = (n) => String(n).padStart(2, "0");
+  const images = [];
+  for (let i = 1; i <= count; i++) images.push(`albums/${folder}/${pad2(i)}.jpg`);
+
+  gridEl.innerHTML = images.map((src, idx) => `
+    <div class="photo">
+      <img loading="lazy" src="${src}" data-idx="${idx}" alt="">
+    </div>
+  `).join("");
+
+  // Lightbox
+  const lb = document.getElementById("lightbox");
+  const lbImg = document.getElementById("lbImg");
+  const lbCount = document.getElementById("lbCount");
+  const closeBtn = document.getElementById("lbClose");
+  const prevBtn = document.getElementById("lbPrev");
+  const nextBtn = document.getElementById("lbNext");
+
+  let current = 0;
+  function openAt(i){
+    current = i;
+    lbImg.src = images[current];
+    lbCount.textContent = `${current + 1} / ${images.length}`;
+    lb.classList.add("open");
+  }
+  function close(){ lb.classList.remove("open"); }
+  function prev(){ openAt((current - 1 + images.length) % images.length); }
+  function next(){ openAt((current + 1) % images.length); }
+
+  gridEl.addEventListener("click", (e) => {
+    const img = e.target.closest("img");
+    if (!img) return;
+    openAt(Number(img.dataset.idx));
+  });
+
+  closeBtn.addEventListener("click", close);
+  prevBtn.addEventListener("click", prev);
+  nextBtn.addEventListener("click", next);
+
+  window.addEventListener("keydown", (e) => {
+    if (!lb.classList.contains("open")) return;
+    if (e.key === "Escape") close();
+    if (e.key === "ArrowLeft") prev();
+    if (e.key === "ArrowRight") next();
+  });
+})();
+</script>
 
 </body>
 </html>
