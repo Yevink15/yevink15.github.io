@@ -1,5 +1,6 @@
 ﻿window.EVENTS = [
-  { slug:"gmu-esports-x-gmu-basketball-collab-2026", title:"GMU Esports x GMU Basketball Collab 2026", date:"2026-02-24", category:"esports", folder:"gmu-esports-x-gmu-basketball-collab-2026" },
+  { slug:"gmu-esports-x-gmu-basketball-collab-2025", title:"GMU Esports x GMU Basketball Collab 2025", date:"2025-04-06", category:"esports", folder:"gmu-esports-x-gmu-basketball-collab-2025" },
+{ slug:"gmu-esports-x-gmu-basketball-collab-2026", title:"GMU Esports x GMU Basketball Collab 2026", date:"2026-02-24", category:"esports", folder:"gmu-esports-x-gmu-basketball-collab-2026" },
 { slug:"philly-lan-edited", title:"Philly LAN edited", date:"2026-02-24", category:"esports", folder:"philly-lan-edited" },
 { slug:"beale-afb-airshow", title:"Beale AFB Airshow", date:"2025-10-14", category:"events", folder:"beale-afb-airshow" },
   { slug:"bloom", title:"Bloom", date:"2025-04-14", category:"events", folder:"bloom" },
@@ -11,4 +12,5 @@
   { slug:"nyc-2025", title:"NYC 2025", date:"2025-09-22", category:"events", folder:"nyc-2025" },
   { slug:"philly-lan-02-23-25", title:"Philly LAN edited", date:"2025-02-23", category:"esports", folder:"philly-lan-02-23-25" }
 ];
+
 
