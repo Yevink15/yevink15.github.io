@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Album — Yevin_K</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="index.html">Yevin_K <span>photo</span></a>
+    <a class="btn btn-ghost" href="index.html">All Albums</a>
+  </div>
+</header>
+
+<main class="container">
+
+<section class="album-header">
+  <h1 id="title">Loading...</h1>
+  <div id="sub" class="album-sub"></div>
+</section>
+
+<section class="photos" id="photos"></section>
+
+</main>
+
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="close">✕</button>
+  <button class="lb-arrow left" id="prev">‹</button>
+  <img id="lbImg" class="lb-img"/>
+  <button class="lb-arrow right" id="next">›</button>
+  <div class="lb-count" id="lbLabel"></div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
