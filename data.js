@@ -1,5 +1,6 @@
 ﻿window.EVENTS = [
-  { slug:"beale-afb-airshow", title:"Beale AFB Airshow", date:"2025-10-14", category:"events", folder:"beale-afb-airshow" },
+  { slug:"philly-lan-edited", title:"Philly LAN edited", date:"2026-02-24", category:"esports", folder:"philly-lan-edited" },
+{ slug:"beale-afb-airshow", title:"Beale AFB Airshow", date:"2025-10-14", category:"events", folder:"beale-afb-airshow" },
   { slug:"bloom", title:"Bloom", date:"2025-04-14", category:"events", folder:"bloom" },
   { slug:"dc-x-lantern-festival", title:"DC X Lantern Festival", date:"2025-03-30", category:"events", folder:"dc-x-lantern-festival" },
   { slug:"game-mason", title:"Game Mason", date:"2025-09-21", category:"esports", folder:"game-mason" },
