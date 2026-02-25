@@ -77,6 +77,7 @@ body{
   overflow:hidden;
   text-decoration:none;
   color:white;
+  padding-bottom: 4px; /* prevents bottom text clipping on rounded corners */
 }
 
 .card img{
@@ -85,7 +86,9 @@ body{
   object-fit:cover;
 }
 
-.meta{padding:10px}
+.meta{
+  padding: 12px 12px 18px 12px; /* extra bottom padding so dates don't clip */
+}
 
 .photos{
   margin-top:30px;
