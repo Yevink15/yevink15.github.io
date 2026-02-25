@@ -78,6 +78,7 @@ body{
   color:white;
   display:flex;
   flex-direction:column;
+  overflow:hidden;
 }
 
 .card img{
@@ -85,14 +86,11 @@ body{
   height:200px;
   object-fit:cover;
   display:block;
-  border-top-left-radius:15px;
-  border-top-right-radius:15px;
 }
 
 .meta{
-  padding:14px 14px 22px 14px;  /* bigger bottom */
-  flex:0 0 auto;
-  line-height:1.25;             /* prevents descenders from clipping */
+  padding:16px;
+  background:#111;   /* forces solid background */
 }
 
 .meta div:last-child{
