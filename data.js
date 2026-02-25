@@ -9,5 +9,4 @@
 
   { slug:"nintendo-night", title:"Nintendo Night", date:"2026-02-21", category:"events", folder:"nintendo-night", count: 13 },
   { slug:"nyc-2025", title:"NYC 2025", date:"2025-09-22", category:"events", folder:"nyc-2025", count: 70 },
-  { slug:"philly-lan-02-23-25", title:"Philly LAN edited", date:"2025-02-23", category:"esports", folder:"philly-lan-02-23-25", count: 60 }
-];
+{ slug:"philly-lan-edited", title:"Philly LAN edited", date:"2025-02-23", category:"esports", folder:"philly-lan-edited" },];
