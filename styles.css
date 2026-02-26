@@ -358,12 +358,15 @@ body::after{
 .contact-item{
   display:flex;
   align-items:center;
+  justify-content:center;
   gap:12px;
   font-size:18px;
   text-decoration:none;
   color:white;
   opacity:0.85;
   transition:all 0.2s ease;
+  text-align:center;        /* ADD THIS */
+  width:100%;               /* ADD THIS */
 }
 
 .contact-item:hover{
