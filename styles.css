@@ -97,15 +97,19 @@ body::after{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  width:34px;
-  height:34px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,0.18);
+  width:32px;
+  height:32px;
+  margin-left:14px;
   color:white;
   text-decoration:none;
-  opacity:0.9;
+  opacity:0.8;
+  transition: all 0.2s ease;
 }
-.icon-link:hover{ opacity:1; }
+
+.icon-link:hover{
+  opacity:1;
+  transform: translateY(-2px);
+}
 
 /* ===== Buttons ===== */
 .btn{
