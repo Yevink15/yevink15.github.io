@@ -1,3 +1,4 @@
+/* ===== Base ===== */
 body{
   margin:0;
   font-family:'Inter', sans-serif;
@@ -15,7 +16,10 @@ body::before{
   position: fixed;
   inset: 0;
   background: url("assets/bg.jpg") center/cover no-repeat;
+
+  /* set to blur(10px) if you want it softer */
   filter: none;
+
   transform: scale(1.05); /* prevents blur edges */
   opacity: 0.55;
   z-index: -2;
@@ -39,37 +43,124 @@ body::after{
   padding:20px;
 }
 
+/* ===== Nav ===== */
 .nav{
-  padding:20px;
-  background:#0b0f1a;
-  border-bottom:1px solid rgba(255,255,255,.1);
+  padding:14px 0;
+  background: rgba(11,15,26,0.65);
+  backdrop-filter: blur(10px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .nav-inner{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  gap: 14px;
 }
 
-.brand span{color:#888}
-
-.btn{
-  padding:8px 14px;
-  border-radius:8px;
-  border:1px solid rgba(255,255,255,.2);
+.brand{
   text-decoration:none;
   color:white;
+  font-weight:700;
+  letter-spacing:0.02em;
+}
+.brand span{color:#888}
+
+/* Left nav links */
+.nav-left{
+  display:flex;
+  align-items:center;
+  gap:18px;
 }
 
-.btn-primary{background:#2f5cff}
+.navlink{
+  color: rgba(255,255,255,0.75);
+  text-decoration:none;
+  font-weight:600;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  font-size:13px;
+}
+.navlink:hover{ color:white; }
 
+/* Right icons */
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.icon-link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:34px;
+  height:34px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.18);
+  color:white;
+  text-decoration:none;
+  opacity:0.9;
+}
+.icon-link:hover{ opacity:1; }
+
+/* ===== Buttons ===== */
+.btn{
+  padding:10px 16px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.18);
+  text-decoration:none;
+  color:white;
+  background: rgba(17,17,17,0.25);
+}
+
+.btn-primary{
+  background:#2f5cff;
+  border-color: rgba(47,92,255,0.35);
+}
+
+/* ===== Hero ===== */
 .hero{
   padding:60px 20px;
   text-align:center;
-  background:linear-gradient(180deg,#141c35,#0b0f1a);
+  background: rgba(17,17,17,0.28);
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius:20px;
+  backdrop-filter: blur(10px);
 }
 
+.hero-full{
+  min-height: 65vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.hero-title{
+  font-size: clamp(44px, 6vw, 84px);
+  line-height:1.05;
+  margin: 0 0 14px 0;
+  font-weight:800;
+}
+
+.hero-sub{
+  max-width: 760px;
+  margin: 0 auto 22px auto;
+  color: rgba(255,255,255,0.78);
+  font-size: 16px;
+}
+
+.hero-cta{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  margin-bottom: 26px;
+}
+
+/* ===== Filters + Search ===== */
 .pills{margin-top:20px}
 .pill{
   padding:8px 14px;
@@ -84,14 +175,16 @@ body::after{
 
 .search{
   margin-top:15px;
-  padding:8px;
+  padding:10px 12px;
   width:250px;
-  border-radius:8px;
-  border:1px solid rgba(255,255,255,.2);
-  background:#111;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.18);
+  background: rgba(17,17,17,0.35);
   color:white;
+  outline: none;
 }
 
+/* ===== Album Grid ===== */
 .grid{
   margin-top:30px;
   display:grid;
@@ -100,7 +193,8 @@ body::after{
 }
 
 .card{
-  background:#111;
+  background: rgba(17,17,17,0.55);
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius:15px;
   text-decoration:none;
   color:white;
@@ -108,19 +202,16 @@ body::after{
   flex-direction:column;
   overflow:hidden;
 
-  /* add transition here */
+  /* hover + entrance animation */
   transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-/* ADD THIS RIGHT BELOW */
-.card:hover{
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-}
-.card{
   opacity:0;
   transform: translateY(20px);
   animation: fadeUp 0.6s ease forwards;
+}
+
+.card:hover{
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
 }
 
 .card:nth-child(1){ animation-delay: 0.05s; }
@@ -144,8 +235,8 @@ body::after{
 }
 
 .card-meta{
-  padding:20px 16px 24px;   /* more space, fixes “cut off” */
-  text-align:center;        /* centers title + date */
+  padding:20px 16px 24px;
+  text-align:center;
 }
 
 .card-title,
@@ -153,6 +244,30 @@ body::after{
   line-height:1.4;
 }
 
+/* ===== Sections (About/Contact) ===== */
+.section{
+  margin-top: 50px;
+  padding: 22px;
+  background: rgba(17,17,17,0.45);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+}
+
+.section h2{
+  margin:0 0 10px 0;
+}
+
+.section p{
+  margin:0;
+  color: rgba(255,255,255,0.85);
+}
+
+.section a{
+  color:white;
+}
+
+/* ===== Album Page (Photos + Lightbox) ===== */
 .photos{
   margin-top:30px;
   display:grid;
@@ -189,8 +304,9 @@ body::after{
   background:#2f5cff;
   border:none;
   color:white;
-  padding:10px;
+  padding:10px 14px;
   cursor:pointer;
+  border-radius: 10px;
 }
 
 .lb-close{top:20px;right:20px}
@@ -199,4 +315,13 @@ body::after{
 .lb-count{
   position:absolute;
   bottom:20px;
+  color: rgba(255,255,255,0.8);
+}
+
+/* ===== Footer ===== */
+.footer{
+  margin: 40px 0 10px 0;
+  text-align:center;
+  color: rgba(255,255,255,0.6);
+  font-size: 13px;
 }
