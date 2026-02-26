@@ -15,7 +15,7 @@ body::before{
   position: fixed;
   inset: 0;
   background: url("assets/bg.jpg") center/cover no-repeat;
-  filter: blur(10px);
+  filter: none;
   transform: scale(1.05); /* prevents blur edges */
   opacity: 0.55;
   z-index: -2;
