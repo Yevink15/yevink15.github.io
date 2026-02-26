@@ -133,7 +133,8 @@ body::after{
 }
 
 .hero-full{
-  min-height: 65vh;
+  min-height: 420px;      /* fixed height instead of viewport */
+  padding: 80px 40px;
   display:flex;
   align-items:center;
   justify-content:center;
