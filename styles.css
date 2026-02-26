@@ -374,3 +374,11 @@ body::after{
   opacity:1;
   transform:translateY(-2px);
 }
+
+.contact-sub{
+  max-width:600px;
+  margin: 0 auto 30px auto;
+  text-align:center;
+  opacity:0.85;
+  line-height:1.6;
+}
