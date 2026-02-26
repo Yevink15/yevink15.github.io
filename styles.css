@@ -1,8 +1,36 @@
 body{
   margin:0;
   font-family:'Inter', sans-serif;
-  background:#0b0f1a;
   color:white;
+
+  /* fallback color */
+  background:#0b0f1a;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* background image layer */
+body::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  background: url("assets/bg.jpg") center/cover no-repeat;
+  filter: blur(10px);
+  transform: scale(1.05); /* prevents blur edges */
+  opacity: 0.55;
+  z-index: -2;
+}
+
+/* dark overlay + vignette */
+body::after{
+  content:"";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(900px 500px at 50% 10%, rgba(80,120,255,0.18), transparent 60%),
+    radial-gradient(700px 450px at 20% 60%, rgba(150,80,255,0.12), transparent 65%),
+    linear-gradient(180deg, rgba(0,0,0,0.55), rgba(11,15,26,0.95));
+  z-index: -1;
 }
 
 .container{
