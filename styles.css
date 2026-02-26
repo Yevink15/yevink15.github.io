@@ -341,10 +341,11 @@ body::after{
 
 .about-text{
   max-width:700px;
+  width:100%;          /* ADD THIS */
   margin:0 auto 25px auto;
   line-height:1.7;
   opacity:0.9;
-  text-align:center;   /* ← ADD THIS */
+  text-align:center;
 }
 
 .contact-list{
