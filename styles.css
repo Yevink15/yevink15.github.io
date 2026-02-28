@@ -390,3 +390,18 @@ body::after{
   opacity:0.85;
   line-height:1.6;
 }
+
+@media (max-width: 520px){
+  .nav-inner{
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+
+  .nav-left{ gap: 12px; }
+  .nav-right{ gap: 10px; }
+
+  .navlink{
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+}
