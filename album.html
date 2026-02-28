@@ -92,12 +92,61 @@
   `).join("");
 
   // Lightbox
-  const lb = document.getElementById("lightbox");
-  const lbImg = document.getElementById("lbImg");
-  const lbCount = document.getElementById("lbCount");
-  const closeBtn = document.getElementById("lbClose");
-  const prevBtn = document.getElementById("lbPrev");
-  const nextBtn = document.getElementById("lbNext");
+const lb = document.getElementById("lightbox");
+const lbImg = document.getElementById("lbImg");
+const lbCount = document.getElementById("lbCount");
+const closeBtn = document.getElementById("lbClose");
+const prevBtn = document.getElementById("lbPrev");
+const nextBtn = document.getElementById("lbNext");
+
+let current = 0;
+
+function openAt(i){
+  current = i;
+  lbImg.src = images[current];
+  lbCount.textContent = `${current + 1} / ${images.length}`;
+  lb.classList.add("open");
+}
+
+function close(){
+  lb.classList.remove("open");
+}
+
+function prev(){
+  openAt((current - 1 + images.length) % images.length);
+}
+
+function next(){
+  openAt((current + 1) % images.length);
+}
+
+// Open on image click
+gridEl.addEventListener("click", (e) => {
+  const img = e.target.closest("img");
+  if (!img) return;
+  openAt(Number(img.dataset.idx));
+});
+
+// Button controls
+closeBtn.addEventListener("click", close);
+prevBtn.addEventListener("click", prev);
+nextBtn.addEventListener("click", next);
+
+// Close when clicking black background
+lb.addEventListener("click", (e) => {
+  if (e.target === lb) {
+    close();
+  }
+});
+
+// Keyboard controls
+window.addEventListener("keydown", (e) => {
+  if (!lb.classList.contains("open")) return;
+
+  if (e.key === "Escape") close();
+  if (e.key === "ArrowLeft") prev();
+  if (e.key === "ArrowRight") next();
+});
 
   let current = 0;
   function openAt(i){
