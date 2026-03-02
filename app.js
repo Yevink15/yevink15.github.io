@@ -53,11 +53,20 @@
 
     if (!grid) return;
 
+    if (!events.length) {
+      grid.innerHTML = `
+        <div class="section empty-state" role="status" aria-live="polite">
+          <h2>No results found</h2>
+          <p>Try a different search or filter.</p>
+        </div>
+      `;
+      return;
+    }
+
     grid.innerHTML = events
       .map((e) => {
         const title = escapeHtml(e.title || e.slug || "Untitled");
         const date = escapeHtml(e.date || "");
-        const cat = escapeHtml((e.category || "").toUpperCase());
         const href = albumLink(e);
         const img = coverUrl(e);
 
