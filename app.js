@@ -11,7 +11,6 @@
   }
 
   function coverUrl(ev) {
-    // uses folder field if present, otherwise slug
     const folder = ev.folder || ev.slug;
     return `albums/${folder}/cover.jpg`;
   }
@@ -37,11 +36,15 @@
 
     let events = getEvents();
 
-    // newest first if date exists
-    events = events.slice().sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
+    // newest first
+    events = events.slice().sort((a, b) =>
+      String(b.date || "").localeCompare(String(a.date || ""))
+    );
 
     if (filter && filter !== "all") {
-      events = events.filter((e) => (e.category || "").toLowerCase() === filter);
+      events = events.filter(
+        (e) => (e.category || "").toLowerCase() === filter
+      );
     }
 
     if (q) {
@@ -55,7 +58,7 @@
 
     if (!events.length) {
       grid.innerHTML = `
-        <div class="section empty-state" role="status" aria-live="polite">
+        <div class="section empty-state">
           <h2>No results found</h2>
           <p>Try a different search or filter.</p>
         </div>
@@ -70,10 +73,19 @@
         const href = albumLink(e);
         const img = coverUrl(e);
 
+        // 🔥 THIS IS THE NEW PART
+        const pos = escapeHtml(e.coverPosition || "50% 50%");
+
         return `
           <a class="card" href="${href}">
             <div class="card-media">
-              <img loading="lazy" src="${img}" alt="${title}" onerror="this.style.opacity=0.2" />
+              <img 
+                loading="lazy" 
+                src="${img}" 
+                alt="${title}" 
+                style="object-position:${pos};"
+                onerror="this.style.opacity=0.2" 
+              />
             </div>
             <div class="card-meta">
               <div class="card-title">${title}</div>
@@ -85,7 +97,6 @@
       .join("");
   }
 
-  // pill click handlers
   pills.forEach((p) => {
     p.addEventListener("click", () => {
       pills.forEach((x) => x.classList.remove("active"));
@@ -94,9 +105,7 @@
     });
   });
 
-  // search handler
   if (search) search.addEventListener("input", render);
 
-  // render once the page is fully loaded (ensures window.EVENTS exists)
   window.addEventListener("load", render);
 })();
