@@ -1,32 +1,80 @@
-$folder = "C:\Users\yevin\OneDrive\Desktop\yevink15.github.io\albums\philly-lan-edited"
+[CmdletBinding(SupportsShouldProcess=$true)]
+param(
+  [Parameter(Mandatory=$true)]
+  [string]$Folder,
 
-# get only image files (ignore anything weird)
-$files = Get-ChildItem -Path $folder -File | Where-Object {
-    $_.Extension.ToLower() -in @(".jpg",".jpeg",".png")
+  [switch]$CreateThumbs,
+
+  [int]$ThumbWidth = 900
+)
+
+$resolved = Resolve-Path -LiteralPath $Folder -ErrorAction Stop
+$albumPath = $resolved.Path
+
+$files = Get-ChildItem -LiteralPath $albumPath -File | Where-Object {
+  $_.Extension.ToLower() -in @(".jpg", ".jpeg") -and $_.Name -ne "cover.jpg"
 } | Sort-Object Name
 
-$count = 1
-
-# STEP 1: rename everything to temp names (prevents conflicts)
-foreach ($file in $files) {
-    $tempName = "temp_$count.jpg"
-    Rename-Item $file.FullName -NewName $tempName
-    $count++
+if (-not $files.Count) {
+  Write-Host "No JPG files found in $albumPath"
+  exit 0
 }
-
-# STEP 2: rename temp files to final names
-$files = Get-ChildItem -Path $folder -Filter "temp_*.jpg" | Sort-Object Name
 
 $count = 1
 foreach ($file in $files) {
-    $newName = "{0:D2}.jpg" -f $count
-    Rename-Item $file.FullName -NewName $newName
-    $count++
+  $tempName = "temp_$count$($file.Extension.ToLower())"
+  if ($PSCmdlet.ShouldProcess($file.FullName, "Rename to $tempName")) {
+    Rename-Item -LiteralPath $file.FullName -NewName $tempName
+  }
+  $count++
 }
 
-# STEP 3: create cover
-if (Test-Path "$folder\01.jpg") {
-    Copy-Item "$folder\01.jpg" "$folder\cover.jpg" -Force
+$files = if ($WhatIfPreference) {
+  $files | ForEach-Object {
+    $script:i = if ($null -eq $script:i) { 1 } else { $script:i + 1 }
+    [PSCustomObject]@{ FullName = Join-Path $albumPath "temp_$script:i$($_.Extension.ToLower())"; Name = "temp_$script:i$($_.Extension.ToLower())" }
+  }
+} else {
+  Get-ChildItem -LiteralPath $albumPath -Filter "temp_*" -File | Sort-Object Name
 }
 
-Write-Host "DONE - Renamed $($count - 1) files"
+$count = 1
+foreach ($file in $files) {
+  $newName = "{0:D2}.jpg" -f $count
+  if ($PSCmdlet.ShouldProcess($file.FullName, "Rename to $newName")) {
+    Rename-Item -LiteralPath $file.FullName -NewName $newName
+  }
+  $count++
+}
+
+$photoCount = $count - 1
+$cover = Join-Path $albumPath "cover.jpg"
+$firstPhoto = Join-Path $albumPath "01.jpg"
+
+if ($PSCmdlet.ShouldProcess($cover, "Create cover from 01.jpg")) {
+  if (Test-Path -LiteralPath $firstPhoto) {
+    Copy-Item -LiteralPath $firstPhoto -Destination $cover -Force
+  }
+}
+
+if ($CreateThumbs) {
+  $magick = Get-Command magick -ErrorAction SilentlyContinue
+  if (-not $magick) {
+    Write-Host "ImageMagick was not found, so thumbnails were skipped. Install ImageMagick or rerun without -CreateThumbs."
+  } else {
+    $thumbDir = Join-Path $albumPath "thumbs"
+    if ($PSCmdlet.ShouldProcess($thumbDir, "Create thumbnail directory")) {
+      New-Item -ItemType Directory -Force -Path $thumbDir | Out-Null
+    }
+
+    Get-ChildItem -LiteralPath $albumPath -Filter "*.jpg" -File | Where-Object { $_.Name -ne "cover.jpg" } | ForEach-Object {
+      $out = Join-Path $thumbDir $_.Name
+      if ($PSCmdlet.ShouldProcess($out, "Create resized thumbnail")) {
+        & $magick.Source $_.FullName -auto-orient -resize "$($ThumbWidth)x" -quality 82 $out
+      }
+    }
+  }
+}
+
+Write-Host "Done - prepared $photoCount photos in $albumPath"
+Write-Host "Update data.js count to $photoCount for this album."

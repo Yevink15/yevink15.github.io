@@ -1,23 +1,26 @@
-// app.js — renders album cards from window.EVENTS
+// app.js - renders portfolio album cards from window.EVENTS
 
 (function () {
   const grid = document.getElementById("grid");
+  const featuredGrid = document.getElementById("featuredGrid");
   const search = document.getElementById("search");
   const pills = Array.from(document.querySelectorAll(".pill"));
+  const resultCount = document.getElementById("resultCount");
 
   function getEvents() {
-    const events = window.EVENTS;
-    return Array.isArray(events) ? events : [];
+    return Array.isArray(window.EVENTS) ? window.EVENTS : [];
+  }
+
+  function folderFor(ev) {
+    return ev.folder || ev.slug;
   }
 
   function coverUrl(ev) {
-    const folder = ev.folder || ev.slug;
-    return `albums/${folder}/cover.jpg`;
+    return `albums/${folderFor(ev)}/cover.jpg`;
   }
 
   function albumLink(ev) {
-    const slug = ev.slug || ev.folder;
-    return `album.html?slug=${encodeURIComponent(slug)}`;
+    return `album.html?slug=${encodeURIComponent(ev.slug || ev.folder)}`;
   }
 
   function escapeHtml(str) {
@@ -29,72 +32,109 @@
       .replaceAll("'", "&#039;");
   }
 
-  function render() {
+  function formatDate(value) {
+    if (!value) return "";
+    const date = new Date(`${value}T12:00:00`);
+    if (Number.isNaN(date.getTime())) return value;
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric"
+    });
+  }
+
+  function categoryLabel(value) {
+    return String(value || "work").replace(/-/g, " ").toUpperCase();
+  }
+
+  function sortNewest(events) {
+    return events.slice().sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
+  }
+
+  function cardTemplate(e, variant = "") {
+    const title = escapeHtml(e.title || e.slug || "Untitled");
+    const date = escapeHtml(formatDate(e.date));
+    const category = escapeHtml(categoryLabel(e.category));
+    const location = escapeHtml(e.location || "");
+    const description = escapeHtml(e.description || "");
+    const count = Number(e.count || 0);
+    const href = albumLink(e);
+    const img = coverUrl(e);
+    const pos = escapeHtml(e.coverPosition || "50% 50%");
+    const classes = ["card", variant].filter(Boolean).join(" ");
+
+    return `
+      <a class="${classes}" href="${href}" aria-label="Open ${title} album">
+        <div class="card-media">
+          <img
+            loading="lazy"
+            decoding="async"
+            src="${img}"
+            alt="${title} cover photo"
+            style="object-position:${pos};"
+            onerror="this.closest('.card-media').classList.add('image-missing')"
+          />
+          <span class="card-badge">${category}</span>
+        </div>
+        <div class="card-meta">
+          <div class="card-kicker">${[date, location].filter(Boolean).join(" / ")}</div>
+          <h3 class="card-title">${title}</h3>
+          ${description ? `<p class="card-desc">${description}</p>` : ""}
+          <div class="card-foot">
+            <span>${count ? `${count} photos` : "Gallery"}</span>
+            <span aria-hidden="true">View album</span>
+          </div>
+        </div>
+      </a>
+    `;
+  }
+
+  function filteredEvents() {
     const q = (search?.value || "").trim().toLowerCase();
     const active = pills.find((p) => p.classList.contains("active"));
     const filter = active ? active.dataset.filter : "all";
 
-    let events = getEvents();
-
-    // newest first
-    events = events.slice().sort((a, b) =>
-      String(b.date || "").localeCompare(String(a.date || ""))
-    );
+    let events = sortNewest(getEvents());
 
     if (filter && filter !== "all") {
-      events = events.filter(
-        (e) => (e.category || "").toLowerCase() === filter
-      );
+      events = events.filter((e) => (e.category || "").toLowerCase() === filter);
     }
 
     if (q) {
       events = events.filter((e) => {
-        const hay = `${e.title || ""} ${e.date || ""} ${e.category || ""}`.toLowerCase();
+        const hay = [e.title, e.date, e.category, e.location, e.description].join(" ").toLowerCase();
         return hay.includes(q);
       });
     }
 
+    return events;
+  }
+
+  function renderFeatured() {
+    if (!featuredGrid) return;
+    const featured = sortNewest(getEvents()).filter((e) => e.featured).slice(0, 4);
+    featuredGrid.innerHTML = featured.map((e, idx) => cardTemplate(e, idx === 0 ? "card-feature" : "")).join("");
+  }
+
+  function render() {
     if (!grid) return;
+    const events = filteredEvents();
+
+    if (resultCount) {
+      resultCount.textContent = `${events.length} ${events.length === 1 ? "album" : "albums"}`;
+    }
 
     if (!events.length) {
       grid.innerHTML = `
         <div class="section empty-state">
           <h2>No results found</h2>
-          <p>Try a different search or filter.</p>
+          <p>Try a different search, category, or event location.</p>
         </div>
       `;
       return;
     }
 
-    grid.innerHTML = events
-      .map((e) => {
-        const title = escapeHtml(e.title || e.slug || "Untitled");
-        const date = escapeHtml(e.date || "");
-        const href = albumLink(e);
-        const img = coverUrl(e);
-
-        // 🔥 THIS IS THE NEW PART
-        const pos = escapeHtml(e.coverPosition || "50% 50%");
-
-        return `
-          <a class="card" href="${href}">
-            <div class="card-media">
-              <img 
-                loading="lazy" 
-                src="${img}" 
-                alt="${title}" 
-                style="object-position:${pos};"
-                onerror="this.style.opacity=0.2" 
-              />
-            </div>
-            <div class="card-meta">
-              <div class="card-title">${title}</div>
-              ${date ? `<div class="card-sub">${date}</div>` : ""}
-            </div>
-          </a>
-        `;
-      })
-      .join("");
+    grid.innerHTML = events.map((e) => cardTemplate(e)).join("");
   }
 
   pills.forEach((p) => {
@@ -107,5 +147,8 @@
 
   if (search) search.addEventListener("input", render);
 
-  window.addEventListener("load", render);
+  window.addEventListener("load", () => {
+    renderFeatured();
+    render();
+  });
 })();
