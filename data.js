@@ -1,5 +1,28 @@
 window.EVENTS = [
   {
+    slug: "gmu-vsa-cs-2026",
+    title: "GMU VSA Culture Show 2026",
+    date: "2026-04-25",
+    category: "events",
+    folder: "gmu-vsa-cs-2026",
+    count: 230,
+    location: "George Mason University",
+    description: "Culture show coverage with performances, portraits, community giveaways, and shared moments.",
+    featured: true
+  },
+  {
+    slug: "mason-day-2026",
+    title: "Mason Day 2026",
+    date: "2026-04-24",
+    category: "events",
+    folder: "mason-day-2026",
+    count: 29,
+    location: "George Mason University",
+    description: "Campus celebration coverage with concert atmosphere, community giveaways, student moments, and Mason Day energy.",
+    coverPosition: "50% 20%",
+    featured: true
+  },
+  {
     slug: "apac-night-market-2026",
     title: "APAC Night Market 2026",
     date: "2026-04-18",
