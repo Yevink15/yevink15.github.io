@@ -18,7 +18,7 @@ window.EVENTS = [
     folder: "mason-day-2026",
     count: 29,
     location: "George Mason University",
-    description: "Campus celebration coverage with concert atmosphere, community giveaways, student moments, and Mason Day energy.",
+    description: "Mason Day 2026 coverage featuring JT and The Aces, concert atmosphere, community giveaways, student moments, and campus energy.",
     coverPosition: "50% 20%",
     featured: true
   },
@@ -30,7 +30,7 @@ window.EVENTS = [
     folder: "apac-night-market-2026",
     count: 126,
     location: "George Mason University",
-    description: "Night-market atmosphere, student performances, food, and community moments under warm event light.",
+    description: "Night-market atmosphere, student performances, headliner Bixby, food, and community moments under warm event light.",
     featured: true
   },
   {
@@ -53,7 +53,7 @@ window.EVENTS = [
     folder: "leadership-legion-spring-2026",
     count: 34,
     location: "George Mason University",
-    description: "A focused event gallery built around speakers, connection, and leadership moments.",
+    description: "GMU Esports leadership tryouts reimagined as a field day of sports, teamwork, and campus connection.",
     coverPosition: "50% 10%"
   },
   {
