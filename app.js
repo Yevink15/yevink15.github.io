@@ -20,7 +20,7 @@
   }
 
   function albumLink(ev) {
-    return `album.html?slug=${encodeURIComponent(ev.slug || ev.folder)}`;
+    return `/album.html?slug=${encodeURIComponent(ev.slug || ev.folder)}`;
   }
 
   function escapeHtml(str) {
