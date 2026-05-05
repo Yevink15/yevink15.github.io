@@ -1,5 +1,16 @@
 window.EVENTS = [
   {
+    slug: "gmu-esports-award-ceremony-2026",
+    title: "GMU Esports Award Ceremony 2026",
+    date: "2026-05-04",
+    category: "esports",
+    folder: "gmu-esports-award-ceremony-2026",
+    count: 81,
+    location: "George Mason University",
+    description: "GMU Esports End of Year Award Ceremony coverage with team moments, honorees, and community celebration.",
+    featured: true
+  },
+  {
     slug: "gmu-vsa-cs-2026",
     title: "GMU VSA Culture Show 2026",
     date: "2026-04-25",
