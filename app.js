@@ -16,11 +16,11 @@
   }
 
   function coverUrl(ev) {
-    return `albums/${folderFor(ev)}/cover.jpg`;
+    return `/albums/${folderFor(ev)}/cover.jpg`;
   }
 
   function albumLink(ev) {
-    return `/album.html?slug=${encodeURIComponent(ev.slug || ev.folder)}`;
+    return `/work/${encodeURIComponent(ev.slug || ev.folder)}/`;
   }
 
   function escapeHtml(str) {

@@ -18,6 +18,11 @@
   <link rel="stylesheet" href="../styles.css"/>
   <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png?v=3">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-180.png?v=3">
+  <script>
+  if (location.pathname.endsWith("/index.html")) {
+    location.replace(`${location.pathname.replace(/index\.html$/, "")}${location.hash}`);
+  }
+  </script>
 </head>
 <body>
 
@@ -25,7 +30,7 @@
   <div class="container nav-inner">
     <div class="nav-left">
       <a class="brand" href="/">YKCaptures</a>
-      <a class="navlink" href="/#work">Work</a>
+      <a class="navlink" href="/work/">Work</a>
       <a class="navlink" href="/about/">About</a>
       <a class="navlink" href="/contact/#inquiry">Contact</a>
     </div>
@@ -54,7 +59,7 @@
       </div>
 
       <div class="hero-cta align-left">
-        <a class="btn btn-primary" href="/#work">View Work</a>
+        <a class="btn btn-primary" href="/work/">View Work</a>
         <a class="btn" href="/contact/#inquiry">Book Coverage</a>
       </div>
     </div>
