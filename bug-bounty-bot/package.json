@@ -1,0 +1,17 @@
+{
+  "name": "bug-bounty-quest-board",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A Discord quest board bot for building bug bounty and developer-role habits.",
+  "scripts": {
+    "start": "node src/index.js",
+    "register": "node src/register-commands.js",
+    "check": "node --check src/index.js && node --check src/register-commands.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.19.3",
+    "dotenv": "^16.5.0",
+    "node-cron": "^4.2.1"
+  }
+}
