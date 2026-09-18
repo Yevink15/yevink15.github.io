@@ -6,7 +6,7 @@
   const album=document.body.dataset.slug||new URLSearchParams(location.search).get('slug')||location.pathname.split('/').filter(Boolean).pop();
   const api='https://immich-photos.tail81707f.ts.net/originals/'+encodeURIComponent(album);
   const bar=document.createElement('div');bar.className='photo-downloads';
-  const free=document.createElement('button');free.type='button';free.textContent='Download 1080p Â· Free';
+  const free=document.createElement('button');free.type='button';free.textContent='Download 1080p · Free';
   const original=document.createElement('button');original.type='button';original.textContent='Unlock original';original.disabled=true;
   const status=document.createElement('p');status.className='download-status';status.setAttribute('role','status');
   bar.append(free,original,status);image.parentElement.append(bar);
@@ -17,7 +17,7 @@
   new MutationObserver(update).observe(image,{attributes:true,attributeFilter:['src']});
   function save(blob,name){const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),60000)}
   free.addEventListener('click',async()=>{
-    busy=true;update();status.textContent='Preparing your downloadâ€¦';
+    busy=true;update();status.textContent='Preparing your download…';
     const src=image.src,id=number();
     try{const r=await fetch(src);if(!r.ok)throw Error();const bitmap=await createImageBitmap(await r.blob());
       const landscape=bitmap.width>=bitmap.height;
