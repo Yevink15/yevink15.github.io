@@ -42,7 +42,7 @@
   const count = Number(ev.count || 0);
   const pad2 = (n) => String(n).padStart(2, "0");
   const images = [];
-  for (let i = 1; i <= count; i++) images.push(`/albums/${folder}/${pad2(i)}.jpg`);
+  for (let i = 1; i <= count; i++) { if (!(ev.excludePhotos || []).includes(i)) images.push(`/albums/${folder}/${pad2(i)}.jpg`); }
 
   document.title = `${ev.title || folder} | YKCaptures`;
   const canonicalUrl = `https://ykcaptures.com/work/${encodeURIComponent(ev.slug || ev.folder)}/`;
@@ -54,7 +54,7 @@
   titleEl.textContent = ev.title || folder;
   categoryEl.textContent = label(ev.category);
   descEl.textContent = ev.description || "A YKCaptures event gallery.";
-  metaEl.innerHTML = [formatDate(ev.date), ev.location, count ? `${count} photos` : "Gallery"]
+  metaEl.innerHTML = [formatDate(ev.date), ev.location, images.length ? `${images.length} photos` : "Gallery"]
     .filter(Boolean)
     .map((item) => `<span>${item}</span>`)
     .join("");

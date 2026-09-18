@@ -73,6 +73,7 @@ window.EVENTS = [
     date: "2026-03-14",
     category: "esports",
     folder: "mizzou-lan",
+    excludePhotos: [82],
     count: 83,
     location: "Mizzou",
     description: "LAN coverage with competitive setups, team moments, and the texture of the venue.",
