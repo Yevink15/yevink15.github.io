@@ -166,4 +166,5 @@
 })();
 
 // Optional client photo selections.
-{ const script = document.createElement('script'); script.src = '/selections.js?v=1'; document.body.append(script); }
+{ const script = document.createElement('script'); script.src = '/selections.js?v=2'; document.body.append(script); }
+
