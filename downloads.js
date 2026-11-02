@@ -4,7 +4,7 @@
   const lightbox=document.getElementById('lightbox');
   if(!image||!lightbox)return;
   const album=document.body.dataset.slug||new URLSearchParams(location.search).get('slug')||location.pathname.split('/').filter(Boolean).pop();
-  const api='https://immich-photos.tail81707f.ts.net/originals/'+encodeURIComponent(album);
+  const api='https://home-server.tail81707f.ts.net:8443/originals/'+encodeURIComponent(album);
   const bar=document.createElement('div');bar.className='photo-downloads';
   const free=document.createElement('button');free.type='button';free.textContent='Download 1080p · Free';
   const original=document.createElement('button');original.type='button';original.textContent='Unlock original';original.disabled=true;

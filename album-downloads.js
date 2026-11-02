@@ -7,7 +7,7 @@
  const toggle=document.createElement('button');toggle.className='btn';toggle.type='button';toggle.textContent='Download album';toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-controls','albumDownloadChoices');
  const panel=document.createElement('div');panel.id='albumDownloadChoices';panel.className='album-download-choices';panel.hidden=true;
  const free=document.createElement('button');free.type='button';free.className='btn';free.textContent='1080p ZIP · Free';
- const originals=document.createElement('a');originals.className='btn';originals.textContent='Originals ZIP · Password';originals.href='https://immich-photos.tail81707f.ts.net/originals/'+encodeURIComponent(album)+'/open/album';originals.target='_blank';originals.rel='noopener';
+ const originals=document.createElement('a');originals.className='btn';originals.textContent='Originals ZIP · Password';originals.href='https://home-server.tail81707f.ts.net:8443/originals/'+encodeURIComponent(album)+'/open/album';originals.target='_blank';originals.rel='noopener';
  const status=document.createElement('p');status.setAttribute('role','status');status.className='album-download-status';
  panel.append(free,originals,status);wrap.append(toggle,panel);actions.prepend(wrap);
  toggle.onclick=()=>{panel.hidden=!panel.hidden;toggle.setAttribute('aria-expanded',String(!panel.hidden))};
