@@ -90,6 +90,7 @@
   const nextBtn = document.getElementById("lbNext");
   let current = 0;
   let touchStartX = 0;
+  let returnFocusTo = null;
 
   function preload(index) {
     if (!images.length) return;
@@ -98,6 +99,13 @@
   }
 
   function openAt(i) {
+    if (!lb.classList.contains("open")) {
+      returnFocusTo = document.activeElement;
+      document.querySelector("header")?.setAttribute("inert", "");
+      Array.from(document.querySelector("main")?.children || [])
+        .filter((element) => element !== lb)
+        .forEach((element) => element.setAttribute("inert", ""));
+    }
     current = (i + images.length) % images.length;
     lbImg.src = images[current];
     lbImg.alt = `${ev.title || folder} photo ${current + 1}`;
@@ -112,6 +120,14 @@
   function close() {
     lb.classList.remove("open");
     document.body.classList.remove("no-scroll");
+    document.querySelector("header")?.removeAttribute("inert");
+    Array.from(document.querySelector("main")?.children || [])
+      .filter((element) => element !== lb)
+      .forEach((element) => element.removeAttribute("inert"));
+    if (returnFocusTo instanceof HTMLElement && returnFocusTo.isConnected) {
+      returnFocusTo.focus();
+    }
+    returnFocusTo = null;
   }
 
   function prevImage() {
@@ -148,9 +164,31 @@
 
   window.addEventListener("keydown", (e) => {
     if (!lb.classList.contains("open")) return;
-    if (e.key === "Escape") close();
-    if (e.key === "ArrowLeft") prevImage();
-    if (e.key === "ArrowRight") nextImage();
+    if (e.key === "Escape") {
+      e.preventDefault();
+      close();
+      return;
+    }
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      prevImage();
+    }
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      nextImage();
+    }
+    if (e.key === "Tab") {
+      const controls = [closeBtn, prevBtn, nextBtn];
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+      if (e.shiftKey && (document.activeElement === first || !lb.contains(document.activeElement))) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && (document.activeElement === last || !lb.contains(document.activeElement))) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
   });
 
   copyBtn.addEventListener("click", async () => {
