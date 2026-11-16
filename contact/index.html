@@ -58,9 +58,9 @@
   <section class="contact-hero section section-rich section-center" id="inquiry">
     <p class="eyebrow">Book Coverage</p>
     <h1>Tell me what you need covered.</h1>
-    <p class="contact-sub">Send your name, contact info, and a short memo. The form will open a prefilled email to YKCaptures so you can review and send the inquiry.</p>
+    <p class="contact-sub">Share a few details about your event and I’ll follow up by email. Please don’t include passwords, payment details, or other sensitive information.</p>
 
-    <form class="inquiry-form" id="inquiryForm" action="mailto:YevinKariyawasam@gmail.com" method="post" enctype="text/plain">
+    <form class="inquiry-form" id="inquiryForm" action="https://formsubmit.co/YevinKariyawasam@gmail.com" method="POST">
       <div class="form-grid">
         <label class="field">
           <span>Name</span>
@@ -68,8 +68,12 @@
         </label>
 
         <label class="field">
-          <span>Email or phone</span>
-          <input name="contact" id="contactInfo" type="text" autocomplete="email" required placeholder="How should I reach you?">
+          <span>Email</span>
+          <input name="email" id="email" type="email" autocomplete="email" required placeholder="you@example.com">
+        </label>
+        <label class="field">
+          <span>Phone (optional)</span>
+          <input name="phone" id="phone" type="tel" autocomplete="tel" placeholder="A number I can reach you at">
         </label>
       </div>
 
@@ -97,9 +101,17 @@
         <textarea name="memo" id="memo" rows="6" required placeholder="Tell me what the event is, where it is, roughly how long you need coverage, and any delivery deadline."></textarea>
       </label>
 
+      <input type="hidden" name="_subject" value="New photography inquiry from YKCaptures">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_next" value="https://ykcaptures.com/thanks/">
+      <input type="hidden" name="_url" value="https://ykcaptures.com/contact/">
+      <div class="form-trap" aria-hidden="true" style="display:none">
+        <label>Leave this field empty<input type="text" name="_honey" tabindex="-1" autocomplete="off"></label>
+      </div>
+
       <div class="form-actions">
-        <button class="btn btn-primary" type="submit">Send Inquiry Email</button>
-        <p class="form-note" id="formNote">This uses your email app, so no message is sent until you press send there.</p>
+        <button class="btn btn-primary" type="submit">Send Inquiry</button>
+        <p class="form-note">Your details will be sent through FormSubmit for email delivery. See the <a href="/privacy/">privacy notice</a>.</p>
       </div>
     </form>
   </section>
@@ -116,44 +128,7 @@
   </section>
 </main>
 
-<script>
-(function () {
-  const form = document.getElementById("inquiryForm");
-  const note = document.getElementById("formNote");
-  const recipient = "YevinKariyawasam@gmail.com";
 
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    if (!form.reportValidity()) return;
-
-    const name = document.getElementById("name").value.trim();
-    const contact = document.getElementById("contactInfo").value.trim();
-    const eventDate = document.getElementById("eventDate").value || "Not specified";
-    const coverageType = document.getElementById("coverageType").value;
-    const memo = document.getElementById("memo").value.trim();
-
-    const subject = `Photography Inquiry from ${name}`;
-    const body = [
-      "Photography Coverage Inquiry",
-      "",
-      `Name: ${name}`,
-      `Contact Info: ${contact}`,
-      `Event Date: ${eventDate}`,
-      `Coverage Type: ${coverageType}`,
-      "",
-      "Memo:",
-      memo,
-      "",
-      "Sent from YKCaptures contact form."
-    ].join("\n");
-
-    const mailto = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailto;
-    note.textContent = "Your email app should open with the inquiry filled in. Press send there to finish.";
-  });
-})();
-</script>
 
 </body>
 </html>

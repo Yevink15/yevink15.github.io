@@ -17,8 +17,13 @@
   </url>
   <url>
     <loc>https://ykcaptures.com/contact/</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-11-16</lastmod>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ykcaptures.com/privacy/</loc>
+    <lastmod>2026-11-16</lastmod>
+    <priority>0.3</priority>
   </url>
   <url>
     <loc>https://ykcaptures.com/work/gmu-esports-award-ceremony-2026/</loc>
