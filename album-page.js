@@ -42,7 +42,12 @@
   const count = Number(ev.count || 0);
   const pad2 = (n) => String(n).padStart(2, "0");
   const images = [];
-  for (let i = 1; i <= count; i++) { if (!(ev.excludePhotos || []).includes(i)) images.push(`/albums/${folder}/${pad2(i)}.jpg`); }
+  const previews = [];
+  for (let i = 1; i <= count; i++) {
+    if ((ev.excludePhotos || []).includes(i)) continue;
+    images.push(`/albums/${folder}/${pad2(i)}.jpg`);
+    previews.push(`/albums/${folder}/thumbs/${pad2(i)}.jpg`);
+  }
 
   document.title = `${ev.title || folder} | YKCaptures`;
   const canonicalUrl = `https://ykcaptures.com/work/${encodeURIComponent(ev.slug || ev.folder)}/`;
@@ -77,10 +82,24 @@
   gridEl.innerHTML = images
     .map((src, idx) => `
       <button class="photo" type="button" data-idx="${idx}" aria-label="Open photo ${idx + 1} of ${images.length}">
-        <img loading="lazy" decoding="async" src="${src}" data-idx="${idx}" alt="${ev.title || folder} photo ${idx + 1}">
+        <img class="photo-preview" loading="lazy" decoding="async" src="${previews[idx]}" data-full-src="${src}" data-idx="${idx}" alt="${ev.title || folder} photo ${idx + 1}">
       </button>
     `)
     .join("");
+
+  gridEl.querySelectorAll(".photo img").forEach((img) => {
+    const markLoaded = () => {
+      if (img.naturalWidth > 0) img.classList.add("is-loaded");
+    };
+    img.addEventListener("load", markLoaded, { once: true });
+    img.addEventListener("error", () => {
+      img.closest(".photo")?.classList.add("is-broken");
+      if (img.dataset.fullSrc && img.src !== new URL(img.dataset.fullSrc, location.href).href) {
+        img.src = img.dataset.fullSrc;
+      }
+    }, { once: true });
+    if (img.complete) markLoaded();
+  });
 
   const lb = document.getElementById("lightbox");
   const lbImg = document.getElementById("lbImg");
@@ -107,8 +126,12 @@
         .forEach((element) => element.setAttribute("inert", ""));
     }
     current = (i + images.length) % images.length;
+    lbImg.classList.remove("is-loaded");
     lbImg.src = images[current];
     lbImg.alt = `${ev.title || folder} photo ${current + 1}`;
+    const markLightboxLoaded = () => lbImg.classList.add("is-loaded");
+    lbImg.addEventListener("load", markLightboxLoaded, { once: true });
+    if (lbImg.complete && lbImg.naturalWidth > 0) markLightboxLoaded();
     lbCount.textContent = `${current + 1} / ${images.length}`;
     lb.classList.add("open");
     document.body.classList.add("no-scroll");
