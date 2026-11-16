@@ -16,7 +16,7 @@
   }
 
   function coverUrl(ev) {
-    return `/albums/${folderFor(ev)}/cover.jpg`;
+    return `/albums/${folderFor(ev)}/thumbs/cover.jpg`;
   }
 
   function albumLink(ev) {
@@ -136,6 +136,12 @@
 
     grid.innerHTML = events.map((e) => cardTemplate(e)).join("");
   }
+
+  [grid, featuredGrid].filter(Boolean).forEach((container) => {
+    container.addEventListener("load", (event) => {
+      if (event.target instanceof HTMLImageElement) event.target.classList.add("is-loaded");
+    }, true);
+  });
 
   pills.forEach((p) => {
     p.addEventListener("click", () => {

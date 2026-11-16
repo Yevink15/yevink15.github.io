@@ -19,6 +19,14 @@
 
 html{scroll-behavior:smooth}
 
+/* Native cross-document page transitions where supported; older browsers ignore this. */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:siteFadeOut .12s ease both}
+::view-transition-new(root){animation:siteFadeIn .2s ease-out both}
+@keyframes siteFadeOut{to{opacity:0}}
+@keyframes siteFadeIn{from{opacity:0}}
+
+
 body{
   margin:0;
   min-height:100vh;
@@ -410,23 +418,22 @@ p{line-height:1.7}
   box-shadow:0 16px 48px rgba(0,0,0,0.22);
   opacity:0;
   transform:translateY(18px);
-  animation:fadeUp 0.7s ease forwards;
+  animation:fadeUp 0.45s ease both;
   transition:transform 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease;
 }
 
-.card:hover,
 .card:focus-visible{
-  transform:translateY(-8px);
+  transform:translateY(-4px);
   border-color:rgba(240,177,90,0.46);
   box-shadow:0 28px 80px rgba(0,0,0,0.42);
 }
 
-.card:nth-child(1){animation-delay:0.03s}
-.card:nth-child(2){animation-delay:0.08s}
-.card:nth-child(3){animation-delay:0.13s}
-.card:nth-child(4){animation-delay:0.18s}
-.card:nth-child(5){animation-delay:0.23s}
-.card:nth-child(6){animation-delay:0.28s}
+.card:nth-child(1){animation-delay:0.02s}
+.card:nth-child(2){animation-delay:0.04s}
+.card:nth-child(3){animation-delay:0.06s}
+.card:nth-child(4){animation-delay:0.08s}
+.card:nth-child(5){animation-delay:0.1s}
+.card:nth-child(6){animation-delay:0.12s}
 
 @keyframes fadeUp{
   to{opacity:1;transform:translateY(0)}
@@ -446,12 +453,17 @@ p{line-height:1.7}
   height:100%;
   display:block;
   object-fit:cover;
-  transition:transform 0.55s ease, filter 0.55s ease;
+  opacity:0;
+  transition:opacity .24s ease, transform 0.32s ease, filter 0.32s ease;
 }
+.card-media img.is-loaded{opacity:1}
 
-.card:hover .card-media img,
+@media (hover:hover) and (pointer:fine){
+  .card:hover{transform:translateY(-4px);}
+  .card:hover .card-media img{transform:scale(1.035);filter:saturate(1.08) contrast(1.03);}
+}
 .card:focus-visible .card-media img{
-  transform:scale(1.045);
+  transform:scale(1.035);
   filter:saturate(1.08) contrast(1.03);
 }
 
@@ -721,18 +733,26 @@ p{line-height:1.7}
   box-shadow:0 14px 38px rgba(0,0,0,0.26);
 }
 
+.photo{
+  background:rgba(255,255,255,0.045);
+  outline-offset:4px;
+}
+
 .photo img{
   width:100%;
   height:auto;
   display:block;
   border-radius:18px;
-  transition:transform 0.26s ease, filter 0.26s ease;
+  opacity:0;
+  transition:opacity 0.28s ease, transform 0.28s ease, filter 0.28s ease;
 }
 
-.photo:hover img,
-.photo:focus-visible img{
-  transform:scale(1.025);
-  filter:saturate(1.08) contrast(1.04);
+.photo img.is-loaded{opacity:1}
+.photo.is-broken{min-height:180px;background:linear-gradient(135deg,rgba(240,177,90,.12),rgba(139,211,221,.08))}
+.photo:focus-visible{outline:2px solid var(--gold)}
+
+@media (hover:hover) and (pointer:fine){
+  .photo:hover img{transform:scale(1.025);filter:saturate(1.06) contrast(1.03)}
 }
 
 .album-pager{
@@ -789,8 +809,12 @@ p{line-height:1.7}
   max-height:82vh;
   object-fit:contain;
   border-radius:14px;
+  opacity:0;
+  transform:scale(.985);
+  transition:opacity .18s ease, transform .18s ease;
   box-shadow:0 28px 90px rgba(0,0,0,0.55);
 }
+.lb-img.is-loaded{opacity:1;transform:scale(1)}
 
 .lb-close,
 .lb-arrow{
@@ -891,6 +915,8 @@ p{line-height:1.7}
     scroll-behavior:auto !important;
     transition-duration:0.01ms !important;
   }
+  ::view-transition-old(root),
+  ::view-transition-new(root){animation:none}
 }
 /* Inquiry form */
 .inquiry-form{

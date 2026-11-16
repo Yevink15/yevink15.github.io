@@ -1,6 +1,6 @@
 (() => {
  const actions=document.querySelector('.album-actions');
- const photos=Array.from(document.querySelectorAll('#photos img')).map(img=>img.src);
+ const photos=Array.from(document.querySelectorAll('#photos img')).map(img=>img.dataset.fullSrc || img.src);
  const album=document.body.dataset.slug||new URLSearchParams(location.search).get('slug')||location.pathname.split('/').filter(Boolean).pop();
  if(!actions||!photos.length)return;
  const wrap=document.createElement('div');wrap.className='album-download-picker';
