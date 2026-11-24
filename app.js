@@ -64,7 +64,7 @@
     const classes = ["card", variant].filter(Boolean).join(" ");
 
     return `
-      <a class="${classes}" href="${href}" aria-label="Open ${title} album">
+      <a class="${classes}" href="${href}">
         <div class="card-media">
           <img
             loading="lazy"
@@ -145,8 +145,12 @@
 
   pills.forEach((p) => {
     p.addEventListener("click", () => {
-      pills.forEach((x) => x.classList.remove("active"));
+      pills.forEach((x) => {
+        x.classList.remove("active");
+        x.setAttribute("aria-pressed", "false");
+      });
       p.classList.add("active");
+      p.setAttribute("aria-pressed", "true");
       render();
     });
   });
